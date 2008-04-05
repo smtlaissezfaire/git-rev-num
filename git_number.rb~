@@ -1,0 +1,28 @@
+# A one off script for creating global commit numbers for SHA1/git commit hexadecimals
+
+def repository_root
+  "."
+end
+
+def branches
+  %x("git branch").map { |brach| extract_branch_name(branch) }
+end
+
+def extract_branch_name(branch_name)
+  branch.gsub!("\s.+", "")
+  branch.gsub!("\*", "")
+  branch.strip
+end
+
+private :extract_branch_name
+
+def find_commits
+  %x("git-rev-list #{branches.join(" ")}")
+end
+
+def head_rev
+  find_commits.size + 1
+end
+
+puts find_commits
+puts head_rev

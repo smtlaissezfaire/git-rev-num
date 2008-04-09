@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # A one off script for mapping
 # git SHA1 hashes to global commit numbers
 module Git

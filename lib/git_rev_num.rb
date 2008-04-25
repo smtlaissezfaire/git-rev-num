@@ -17,7 +17,7 @@ module Git
       private :extract_branch_name
 
       def find_commits
-        %x(git-rev-list #{branches.join(" ")})
+        %x(git-rev-list #{branches.join(" ")} --)
       end
 
       def commits

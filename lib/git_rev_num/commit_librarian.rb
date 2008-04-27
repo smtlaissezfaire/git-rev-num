@@ -1,4 +1,4 @@
-module GitRevisionNumber
+module GitRevisionNumbers
   class CommitLibrarian
     attr_reader :commits
 

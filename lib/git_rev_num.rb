@@ -1,5 +1,3 @@
-# A one off script for mapping
-# git SHA1 hashes to global commit numbers
 module GitRevisionNumbers
   class Repository
     def initialize(repository_root=".")

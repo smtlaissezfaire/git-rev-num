@@ -21,12 +21,23 @@ module GitRevisionNumbers
 
     private :extract_branch_name
 
-    def find_commits
-      %x(cd #{repository_root}; git-rev-list #{branches.join(" ")})
+    def find_commits(branch_name=nil)
+      branch_name ?  rev_list(branch_name) : rev_list_all_branches
     end
 
-    def commits
-      @commits ||= find_commits.split.reverse
+    def commits(branch_name=nil)
+      commits = branch_name ? find_commits(branch_name) : find_commits
+      @commits = commits.split.reverse
+    end
+
+  private
+
+    def rev_list(branch_name)
+      %x(cd #{repository_root}; git-rev-list #{branch_name})
+    end
+
+    def rev_list_all_branches
+      %x(cd #{repository_root}; git-rev-list #{branches.join(" ")})
     end
   end
 

@@ -2,6 +2,11 @@
 # git SHA1 hashes to global commit numbers
 module GitRevisionNumbers
   class Repository
+
+    def initialize(repository_root=".")
+      @repository_root = repository_root
+    end
+
     def branches
       %x(git-branch).map { |branch| extract_branch_name(branch) }
     end

@@ -2,8 +2,14 @@
 # git SHA1 hashes to global commit numbers
 module GitRevisionNumbers
   class Repository
+    def initialize(repository_root=".")
+      @repository_root = repository_root
+    end
+
+    attr_reader :repository_root
+
     def branches
-      %x(git-branch).map { |branch| extract_branch_name(branch) }
+      %x(cd #{repository_root}; git-branch).map { |branch| extract_branch_name(branch) }
     end
 
     def extract_branch_name(branch_name)
@@ -14,12 +20,23 @@ module GitRevisionNumbers
 
     private :extract_branch_name
 
-    def find_commits
-      %x(git-rev-list #{branches.join(" ")} --)
+    def find_commits(branch_name=nil)
+      branch_name ?  rev_list(branch_name) : rev_list_all_branches
     end
 
-    def commits
-      @commits ||= find_commits.split.reverse
+    def commits(branch_name=nil)
+      commits = branch_name ? find_commits(branch_name) : find_commits
+      @commits = commits.split.reverse
+    end
+
+  private
+
+    def rev_list(branch_name)
+      %x(cd #{repository_root}; git-rev-list #{branch_name} --)
+    end
+
+    def rev_list_all_branches
+      %x(cd #{repository_root}; git-rev-list #{branches.join(" ")} --)
     end
   end
 
@@ -39,8 +56,19 @@ module GitRevisionNumbers
       commits.select { |e| e == hash }
     end
 
+    def find_commit_by_sha1(hash)
+      commits.select { |e| e == hash }
+    end
+
     def find_commit_by_rev_number(number)
       commits[number - 1]
+    end
+  end
+
+  class MasterCommitLibrarian < CommitLibrarian
+    def initialize
+      super
+      @commits = @repository.commits(:master)
     end
   end
 end

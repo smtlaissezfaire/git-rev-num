@@ -7,8 +7,10 @@ module GitRevisionNumbers
       @repository_root = repository_root
     end
 
+    attr_reader :repository_root
+
     def branches
-      %x(git-branch).map { |branch| extract_branch_name(branch) }
+      %x(cd #{repository_root}; git-branch).map { |branch| extract_branch_name(branch) }
     end
 
     def extract_branch_name(branch_name)
@@ -20,7 +22,7 @@ module GitRevisionNumbers
     private :extract_branch_name
 
     def find_commits
-      %x(git-rev-list #{branches.join(" ")})
+      %x(cd #{repository_root}; git-rev-list #{branches.join(" ")})
     end
 
     def commits

@@ -2,8 +2,8 @@ module GitRevisionNumbers
   class CommitLibrarian
     attr_reader :commits
 
-    def initialize
-      @repository = Repository.new
+    def initialize(init_directory=".")
+      @repository = Repository.new(init_directory)
       @commits = @repository.commits
     end
 

@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-# it should not raise an error when loading...
-
 describe GitRevisionNumbers do
   it "should have the CommitLibrarian" do
     lambda {

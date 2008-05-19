@@ -16,5 +16,16 @@ module GitRevisionNumbers
       Repository.should_receive(:new).with(".").and_return @repository
       CommitLibrarian.new
     end
+    
+    describe "commit numbers" do
+      before :each do
+        @repository.stub!(:commits).and_return ["0a123", "0a234"]
+        @librarian = CommitLibrarian.new()
+      end
+      
+      it "should find the proper head revision number" do
+        @librarian.head_rev_number.should == 2
+      end
+    end
   end
 end

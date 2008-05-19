@@ -7,8 +7,8 @@ module GitRevisionNumbers
       @commits = @repository.commits
     end
 
-    def head_rev
-      commits.size + 1
+    def head_rev_number
+      commits.size
     end
 
     def find_commit_by_sha1(hash)

@@ -15,10 +15,6 @@ module GitRevisionNumbers
       commits.select { |e| e == hash }
     end
 
-    def find_commit_by_sha1(hash)
-      commits.select { |e| e == hash }
-    end
-
     def find_commit_by_rev_number(number)
       commits[number - 1]
     end

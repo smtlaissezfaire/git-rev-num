@@ -26,6 +26,22 @@ module GitRevisionNumbers
       it "should find the proper head revision number" do
         @librarian.head_rev_number.should == 2
       end
+      
+      it "should have the proper sha1 head" do
+        @librarian.sha1_head.should == "0a234"
+      end
+      
+      it "should have the sha1 head as the last of the repository commits" do
+        @repository.stub!(:commits).and_return ["3f3ff"]
+        @librarian = CommitLibrarian.new
+        @librarian.sha1_head.should == "3f3ff"
+      end
+      
+      it "should have the abbreviated sha1 head as a 5 char string" do
+        @repository.stub!(:commits).and_return ["fd110852882a0de37abe6416a149e1e86cc7a13a"]
+        @librarian = CommitLibrarian.new
+        @librarian.abbreviated_sha1_head.should == "fd110"
+      end
     end
   end
 end

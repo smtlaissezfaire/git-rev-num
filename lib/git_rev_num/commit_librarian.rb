@@ -10,6 +10,14 @@ module GitRevisionNumbers
     def head_rev_number
       commits.size
     end
+    
+    def sha1_head
+      commits.last
+    end
+    
+    def abbreviated_sha1_head
+      sha1_head[0..4]
+    end
 
     def find_commit_by_sha1(hash)
       commits.select { |e| e == hash }
